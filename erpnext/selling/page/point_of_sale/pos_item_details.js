@@ -1,3 +1,16 @@
+function escapeHTML(str) {
+    return str.replace(/[&<>"']/g, function (match) {
+        const escapeMap = {
+            '&': '&amp;',
+            '<': '&lt;',
+            '>': '&gt;',
+            '"': '&quot;',
+            "'": '&#39;'
+        };
+        return escapeMap[match];
+    });
+}
+
 erpnext.PointOfSale.ItemDetails = class {
 	constructor({ wrapper, events, settings }) {
 		this.wrapper = wrapper;
@@ -145,7 +158,7 @@ erpnext.PointOfSale.ItemDetails = class {
 	}
 
 	handle_broken_image($img) {
-		const item_abbr = $($img).attr("alt");
+		const item_abbr = escapeHTML($($img).attr("alt"));
 		$($img).replaceWith(`<div class="item-abbr">${item_abbr}</div>`);
 	}
 
